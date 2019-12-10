@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+# 20191210-1346 MEH - Created Initial Implementation
+# https://github.com/sysmatt/txt2nato.git
 
 import argparse
 import sys
