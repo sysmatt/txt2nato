@@ -6,16 +6,17 @@ import sys
 import os
 
 parser = argparse.ArgumentParser()
-parser.add_argument("text", help="Text to enunciate, if null, ask interactively", action="store", type=str)
+parser.add_argument("-p", "--password",  help="Change output format apropriate for pasting an email", action="store_true")
+parser.add_argument("text", help="Text to enunciate, if null, ask interactively", action="store", nargs='*', type=str)
 args = parser.parse_args()
 
 alphabet = {
 	"A":"Alpha",
-	"B":"Beta",
+	"B":"Bravo",
 	"C":"Charlie",
 	"D":"Delta",
 	"E":"Echo",
-	"F":"Foxstrot",
+	"F":"Foxtrot",
 	"G":"Golf",
 	"H":"Hotel",
 	"I":"India",
@@ -87,7 +88,7 @@ else:
 
 
 outPhrase = []
-for thisChar in list(text):
+for thisChar in list(" ".join(text)):
 	thisOut = []
 	if thisChar.isupper():
 		thisOut.append("Uppercase")
