@@ -83,10 +83,11 @@ alphabet = {
     " ":"Blank Space"
 } 
 
+text=[]
 if args.text:
     text = args.text
 else:
-    text = input("Please enter a single line of text: ")
+    text.append(input("Please enter a single line of text: "))
 
 
 outPhrase = []
