@@ -11,91 +11,95 @@ parser.add_argument("text", help="Text to enunciate, if null, ask interactively"
 args = parser.parse_args()
 
 alphabet = {
-	"A":"Alpha",
-	"B":"Bravo",
-	"C":"Charlie",
-	"D":"Delta",
-	"E":"Echo",
-	"F":"Foxtrot",
-	"G":"Golf",
-	"H":"Hotel",
-	"I":"India",
-	"J":"Juliett",
-	"K":"Kilo",
-	"L":"Lima",
-	"M":"Mike",
-	"N":"November",
-	"O":"Oscar",
-	"P":"Papa",
-	"Q":"Quebec",
-	"R":"Romeo",
-	"S":"Sierra",
-	"T":"Tango",
-	"U":"Uniform",
-	"V":"Victor",
-	"W":"Whiskey",
-	"X":"X-Ray",
-	"Y":"Yankee",
-	"Z":"Zulu",
-	"!":"Exclamation Point Symbol",
-	"@":"At Symbol",
-	"#":"Number Symbol",
-	"$":"Dollar Symbol",
-	"%":"Percent Symbol",
-	"^":"Caret Symbol",
-	"&":"Ampersand Symbol",
-	"*":"Asterisk Symbol",
-	"(":"Open Parenthesis Symbol",
-	")":"Close Parenthesis Symbol",
-	"_":"Underscore Symbol",
-	"-":"Dash Symbol",
-	"+":"Plus Symbol",
-	"=":"Equal Symbol",
-	"{":"Open Curly Bracket Symbol",
-	"}":"Close Curly Bracket Symbol",
-	"[":"Open Square Bracket Symbol",
-	"]":"Close Square Bracket Symbol",
-	"|":"Pipe Symbol",
-	"\\":"Backslash Symbol",
-	":":"Colon Symbol",
-	";":"Semi-Colon Symbol",
-	"\"":"Forward Slash Symbol",
-	"'":"Single Quote Symbol",
-	"<":"Less Than Symbol",
-	">":"Greater Than Symbol",
-	",":"Comma Symbol",
-	".":"Period Symbol",
-	"?":"Question Mark Symbol",
-	"/":"Forward Slash Symbol",
-	" ":"Blank Space",
-	"1":"One",
-	"2":"Two",
-	"3":"Three",
-	"4":"Four",
-	"5":"Five",
-	"6":"Six",
-	"7":"Seven",
-	"8":"Eight",
-	"9":"Nine",
-	"0":"Zero",
-	" ":"Blank Space"
+    "A":"Alpha",
+    "B":"Bravo",
+    "C":"Charlie",
+    "D":"Delta",
+    "E":"Echo",
+    "F":"Foxtrot",
+    "G":"Golf",
+    "H":"Hotel",
+    "I":"India",
+    "J":"Juliett",
+    "K":"Kilo",
+    "L":"Lima",
+    "M":"Mike",
+    "N":"November",
+    "O":"Oscar",
+    "P":"Papa",
+    "Q":"Quebec",
+    "R":"Romeo",
+    "S":"Sierra",
+    "T":"Tango",
+    "U":"Uniform",
+    "V":"Victor",
+    "W":"Whiskey",
+    "X":"X-Ray",
+    "Y":"Yankee",
+    "Z":"Zulu",
+    "!":"Exclamation Point Symbol",
+    "@":"At Symbol",
+    "#":"Number Symbol",
+    "$":"Dollar Symbol",
+    "%":"Percent Symbol",
+    "^":"Caret Symbol",
+    "&":"Ampersand Symbol",
+    "*":"Asterisk Symbol",
+    "(":"Open Parenthesis Symbol",
+    ")":"Close Parenthesis Symbol",
+    "_":"Underscore Symbol",
+    "-":"Dash Symbol",
+    "+":"Plus Symbol",
+    "=":"Equal Symbol",
+    "{":"Open Curly Bracket Symbol",
+    "}":"Close Curly Bracket Symbol",
+    "[":"Open Square Bracket Symbol",
+    "]":"Close Square Bracket Symbol",
+    "|":"Pipe Symbol",
+    "\\":"Backslash Symbol",
+    ":":"Colon Symbol",
+    ";":"Semi-Colon Symbol",
+    "\"":"Forward Slash Symbol",
+    "'":"Single Quote Symbol",
+    "<":"Less Than Symbol",
+    ">":"Greater Than Symbol",
+    ",":"Comma Symbol",
+    ".":"Period Symbol",
+    "?":"Question Mark Symbol",
+    "/":"Forward Slash Symbol",
+    " ":"Blank Space",
+    "1":"One",
+    "2":"Two",
+    "3":"Three",
+    "4":"Four",
+    "5":"Five",
+    "6":"Six",
+    "7":"Seven",
+    "8":"Eight",
+    "9":"Nine",
+    "0":"Zero",
+    " ":"Blank Space"
 } 
 
 if args.text:
-	text = args.text
+    text = args.text
 else:
-	text = input("Please enter a single line of text: ")
+    text = input("Please enter a single line of text: ")
 
 
 outPhrase = []
 for thisChar in list(" ".join(text)):
-	thisOut = []
-	if thisChar.isupper():
-		thisOut.append("Uppercase")
-	if thisChar.isdigit():
-		thisOut.append("Number")
-	thisOut.append(alphabet.get(thisChar.upper(),thisChar))
-	outPhrase.append(" ".join(thisOut))
+    thisOut = []
+    if thisChar.isupper():
+        thisOut.append("Uppercase")
+    if thisChar.isdigit():
+        thisOut.append("Number")
+    thisOut.append(alphabet.get(thisChar.upper(),thisChar))
+    outPhrase.append(" ".join(thisOut))
 
-print("\n".join(outPhrase))
+if args.password:
+    print("\nYour password: {}\n\n\t".format(" ".join(text)), end='')
+    print("\n\t".join(outPhrase))
+else:
+    print("\n"+"\n".join(outPhrase))
 		
