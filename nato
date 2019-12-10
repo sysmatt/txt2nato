@@ -5,8 +5,8 @@ import argparse
 import sys
 import os
 
-parser = argparse.ArgumentParser()
-parser.add_argument("-p", "--password",  help="Change output format apropriate for pasting an email", action="store_true")
+parser = argparse.ArgumentParser(description="Convert the provided text into the NATO tele-phonetic alphabet.")
+parser.add_argument("-p", "--password",  help="Change output format apropriate for passwords", action="store_true")
 parser.add_argument("text", help="Text to enunciate, if null, ask interactively", action="store", nargs='*', type=str)
 args = parser.parse_args()
 
