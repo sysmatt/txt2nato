@@ -1,108 +1,151 @@
 #!/usr/bin/env python3
-
+"""
+NATO Phonetic Alphabet Converter
+Converts text into NATO phonetic alphabet representation.
+Uses minimal dependancies, designed to be mostly self contained python
+Written by Matt Hoskins, aka K2TTA, aka SYSMATT
 # 20191210-1346 MEH - Created Initial Implementation
+# 20260216-2245 MEH - Updated, Added comma separated list, code cleanup 
 # https://github.com/sysmatt/txt2nato.git
+"""
 
 import argparse
 import sys
-import os
-
-parser = argparse.ArgumentParser(description="Convert the provided text into the NATO tele-phonetic alphabet.")
-parser.add_argument("-p", "--password",  help="Change output format apropriate for passwords", action="store_true")
-parser.add_argument("text", help="Text to enunciate, if null, ask interactively", action="store", nargs='*', type=str)
-args = parser.parse_args()
-
-alphabet = {
-    "A":"Alpha",
-    "B":"Bravo",
-    "C":"Charlie",
-    "D":"Delta",
-    "E":"Echo",
-    "F":"Foxtrot",
-    "G":"Golf",
-    "H":"Hotel",
-    "I":"India",
-    "J":"Juliett",
-    "K":"Kilo",
-    "L":"Lima",
-    "M":"Mike",
-    "N":"November",
-    "O":"Oscar",
-    "P":"Papa",
-    "Q":"Quebec",
-    "R":"Romeo",
-    "S":"Sierra",
-    "T":"Tango",
-    "U":"Uniform",
-    "V":"Victor",
-    "W":"Whiskey",
-    "X":"X-Ray",
-    "Y":"Yankee",
-    "Z":"Zulu",
-    "!":"Exclamation Point Symbol",
-    "@":"At Symbol",
-    "#":"Number Symbol",
-    "$":"Dollar Symbol",
-    "%":"Percent Symbol",
-    "^":"Caret Symbol",
-    "&":"Ampersand Symbol",
-    "*":"Asterisk Symbol",
-    "(":"Open Parenthesis Symbol",
-    ")":"Close Parenthesis Symbol",
-    "_":"Underscore Symbol",
-    "-":"Dash Symbol",
-    "+":"Plus Symbol",
-    "=":"Equal Symbol",
-    "{":"Open Curly Bracket Symbol",
-    "}":"Close Curly Bracket Symbol",
-    "[":"Open Square Bracket Symbol",
-    "]":"Close Square Bracket Symbol",
-    "|":"Pipe Symbol",
-    "\\":"Backslash Symbol",
-    ":":"Colon Symbol",
-    ";":"Semi-Colon Symbol",
-    "\"":"Forward Slash Symbol",
-    "'":"Single Quote Symbol",
-    "<":"Less Than Symbol",
-    ">":"Greater Than Symbol",
-    ",":"Comma Symbol",
-    ".":"Period Symbol",
-    "?":"Question Mark Symbol",
-    "/":"Forward Slash Symbol",
-    " ":"Blank Space",
-    "1":"One",
-    "2":"Two",
-    "3":"Three",
-    "4":"Four",
-    "5":"Five",
-    "6":"Six",
-    "7":"Seven",
-    "8":"Eight",
-    "9":"Nine",
-    "0":"Zero",
-    " ":"Blank Space"
-} 
-
-text=[]
-if args.text:
-    text = args.text
-else:
-    text.append(input("Please enter a single line of text: "))
 
 
-outPhrase = []
-for thisChar in list(" ".join(text)):
-    thisOut = []
-    if thisChar.isupper():
-        thisOut.append("Uppercase")
-    if thisChar.isdigit():
-        thisOut.append("Number")
-    thisOut.append(alphabet.get(thisChar.upper(),thisChar))
-    outPhrase.append(" ".join(thisOut))
+# NATO Phonetic Alphabet mapping
+NATO_ALPHABET = {
+    # Letters
+    "A": "Alpha", "B": "Bravo", "C": "Charlie", "D": "Delta",
+    "E": "Echo", "F": "Foxtrot", "G": "Golf", "H": "Hotel",
+    "I": "India", "J": "Juliett", "K": "Kilo", "L": "Lima",
+    "M": "Mike", "N": "November", "O": "Oscar", "P": "Papa",
+    "Q": "Quebec", "R": "Romeo", "S": "Sierra", "T": "Tango",
+    "U": "Uniform", "V": "Victor", "W": "Whiskey", "X": "X-Ray",
+    "Y": "Yankee", "Z": "Zulu",
+    
+    # Numbers
+    "0": "Zero", "1": "One", "2": "Two", "3": "Three", "4": "Four",
+    "5": "Five", "6": "Six", "7": "Seven", "8": "Eight", "9": "Nine",
+    
+    # Symbols
+    "!": "Exclamation Point", "@": "At Symbol", "#": "Number Symbol",
+    "$": "Dollar Symbol", "%": "Percent Symbol", "^": "Caret Symbol",
+    "&": "Ampersand Symbol", "*": "Asterisk Symbol",
+    "(": "Open Parenthesis", ")": "Close Parenthesis",
+    "_": "Underscore", "-": "Dash", "+": "Plus", "=": "Equals",
+    "{": "Open Curly Bracket", "}": "Close Curly Bracket",
+    "[": "Open Square Bracket", "]": "Close Square Bracket",
+    "|": "Pipe Symbol", "\\": "Backslash Symbol",
+    ":": "Colon", ";": "Semi-Colon",
+    "\"": "Double Quote", "'": "Single Quote",
+    "<": "Less Than", ">": "Greater Than",
+    ",": "Comma", ".": "Period", "?": "Question Mark",
+    "/": "Forward Slash", " ": "Space"
+}
 
-if args.password:
-    print("\nYour password: {}\n\n\t".format(" ".join(text)), end='')
-    print("\n\t".join(outPhrase))
-else:
-    print("\n"+"\n".join(outPhrase))
-		
+
+def convert_char_to_nato(char: str) -> str:
+    """
+    Convert a single character to its NATO phonetic representation.
+    
+    Args:
+        char: Single character to convert
+        
+    Returns:
+        NATO phonetic representation with case/type prefixes
+    """
+    parts = []
+    
+    # Add prefix for uppercase letters
+    if char.isupper() and char.isalpha():
+        parts.append("Uppercase")
+    
+    # Add prefix for numbers
+    if char.isdigit():
+        parts.append("Number")
+    
+    # Get NATO representation or use the character itself
+    nato_word = NATO_ALPHABET.get(char.upper(), char)
+    parts.append(nato_word)
+    
+    return " ".join(parts)
+
+
+def convert_text_to_nato(text: str) -> list[str]:
+    """
+    Convert entire text string to NATO phonetic alphabet.
+    
+    Args:
+        text: Text string to convert
+        
+    Returns:
+        List of NATO phonetic representations for each character
+    """
+    return [convert_char_to_nato(char) for char in text]
+
+
+def format_output(text: str, nato_words: list[str], password_mode: bool = False, inline_mode: bool = False) -> str:
+    """
+    Format the output based on the selected mode.
+    
+    Args:
+        text: Original input text
+        nato_words: List of NATO phonetic words
+        password_mode: Whether to use password formatting
+        inline_mode: Whether to use comma-separated inline formatting
+        
+    Returns:
+        Formatted output string
+    """
+    if inline_mode:
+        return ", ".join(nato_words)
+    elif password_mode:
+        return f"\nYour password: {text}\n\n\t" + "\n\t".join(nato_words)
+    else:
+        return "\n" + "\n".join(nato_words)
+
+
+def main():
+    """Main entry point for the NATO converter."""
+    parser = argparse.ArgumentParser(
+        description="Convert text into NATO phonetic alphabet."
+    )
+    parser.add_argument(
+        "-p", "--password",
+        help="Format output for password dictation",
+        action="store_true"
+    )
+    parser.add_argument(
+        "-i", "--inline",
+        help="Output all phonetics on one line, comma-separated",
+        action="store_true"
+    )
+    parser.add_argument(
+        "text",
+        help="Text to convert (if omitted, prompts interactively)",
+        nargs="*",
+        type=str
+    )
+    
+    args = parser.parse_args()
+    
+    # Get input text
+    if args.text:
+        input_text = " ".join(args.text)
+    else:
+        try:
+            input_text = input("Please enter text to convert: ")
+        except (EOFError, KeyboardInterrupt):
+            print("\nOperation cancelled.")
+            sys.exit(0)
+    
+    # Convert to NATO and format output
+    nato_words = convert_text_to_nato(input_text)
+    output = format_output(input_text, nato_words, args.password, args.inline)
+    
+    print(output)
+
+
+if __name__ == "__main__":
+    main()
